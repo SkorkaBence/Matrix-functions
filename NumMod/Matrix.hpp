@@ -148,7 +148,26 @@ namespace sbl {
             return a;
         }
 
-        Matrix operator ~ () {
+        Matrix& operator *= (const T& o) {
+            for (unsigned i = 0; i < real_size; i++) {
+                arr[i] *= o;
+            }
+            return *this;
+        }
+
+        Matrix operator * (const T& o) const {
+            Matrix m(*this);
+            m *= o;
+            return m;
+        }
+
+        friend Matrix operator * (const T& o, const Matrix& om) {
+            Matrix m(om);
+            m *= o;
+            return m;
+        }
+
+        Matrix operator ~ () const {
             Matrix a(Height, Width);
             for (unsigned i = 0; i < Height; i++) {
                 for (unsigned j = 0; j < Width; j++) {

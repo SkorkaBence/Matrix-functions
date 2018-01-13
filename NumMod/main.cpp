@@ -9,7 +9,7 @@ int main() {
     sbl::Matrix<long double> m;
     infile >> m;
 
-    std::cout << sbl::det(m) << std::endl;
+    //std::cout << sbl::det(m) << std::endl;
 
     //std::cout << m << std::endl << std::endl;
 
@@ -25,6 +25,9 @@ int main() {
 
     /*sbl::Inverse(m);
     std::cout << m << std::endl << std::endl;*/
+
+    std::cout << m << std::endl << std::endl;
+    std::cout << HouseholderMatrix(m) << std::endl << std::endl;
 
     std::cin.ignore('\n', 1000);
 

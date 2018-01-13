@@ -153,4 +153,22 @@ namespace sbl {
         return det;
     }
 
+    template<typename T>
+    Matrix<T> HouseholderMatrix(const Matrix<T>& m) {
+        if (m.getWidth() != 1) {
+            throw Matrix<T>::InvalidSizeException();
+        }
+
+        unsigned h = m.getHeight();
+
+        Matrix<T> identity(h, h);
+        for (unsigned i = 0; i < h; i++) {
+            identity(i, i) = 1;
+        }
+
+        Matrix<T> mT = ~m;
+
+        return identity - 2 * m * mT;
+    }
+
 }
