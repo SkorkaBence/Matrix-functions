@@ -18,6 +18,20 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Matrix.hpp" />
+    <ClInclude Include="MatrixFunctions.hpp" />
+    <ClInclude Include="Numbers\Complex.hpp" />
+    <ClInclude Include="Numbers\Field.hpp" />
+    <ClInclude Include="Numbers\Polynomial.hpp" />
+    <ClInclude Include="Numbers\Rational.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="matrix1.txt" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{EDDCE9B6-4B42-4320-9D77-301ABBE8C33C}</ProjectGuid>
@@ -114,8 +128,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
