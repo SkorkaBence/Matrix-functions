@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cmath>
 #include "Matrix.hpp"
 
 namespace sbl {
@@ -171,4 +172,58 @@ namespace sbl {
         return identity - 2 * m * mT;
     }
 
+    template<typename T>
+    T norm1(const Matrix<T>& m) {
+        T norm = 0;
+
+        for (unsigned j = 0; j < m.getWidth(); j++) {
+            T sum = 0;
+            for (unsigned i = 0; i < m.getHeight(); i++) {
+                T v = m(i, j);
+                sum += (v >= 0 ? v : -v);
+            }
+            if (sum > norm) {
+                norm = sum;
+            }
+        }
+
+        return norm;
+    }
+
+    template<typename T>
+    T normInf(const Matrix<T>& m) {
+        T norm = 0;
+
+        for (unsigned i = 0; i < m.getHeight(); i++) {
+            T sum = 0;
+            for (unsigned j = 0; j < m.getWidth(); j++) {
+                T v = m(i, j);
+                sum += (v >= 0 ? v : -v);
+            }
+            if (sum > norm) {
+                norm = sum;
+            }
+        }
+
+        return norm;
+    }
+
+    template<typename T>
+    T normFrob(const Matrix<T>& m) {
+        T sum = 0;
+
+        for (unsigned i = 0; i < m.getHeight(); i++) {
+            for (unsigned j = 0; j < m.getWidth(); j++) {
+                T v = m(i, j);
+                sum += v * v;
+            }
+        }
+
+        return sqrt(sum);
+    }
+
+    template<typename T>
+    Matrix<T> EigenValues(const Matrix<T>& m) {
+        typename Matrix<T>::LDU ldu = LDUDecomposition(m);
+    }
 }

@@ -27,7 +27,12 @@ int main() {
     std::cout << m << std::endl << std::endl;*/
 
     std::cout << m << std::endl << std::endl;
-    std::cout << HouseholderMatrix(m) << std::endl << std::endl;
+    //std::cout << HouseholderMatrix(m) << std::endl << std::endl;
+    std::cout << norm1(m) << std::endl;
+    std::cout << normFrob(m) << std::endl;
+    std::cout << normInf(m) << std::endl;
+    std::cout << (~m) * m << std::endl << std::endl;
+
 
     std::cin.ignore('\n', 1000);
 
