@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Matrixes">
+      <UniqueIdentifier>{d5e5091c-bbc9-4690-b03f-954e4fb4d0b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Number systems">
+      <UniqueIdentifier>{b0e363ed-cddc-4fde-81b5-59dedf394c4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Polynomials">
+      <UniqueIdentifier>{f691850a-ff15-4d74-96cd-5bfb648bd438}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -21,22 +30,22 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Matrix.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Numbers\Complex.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Numbers\Field.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Numbers\Polynomial.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Numbers\Rational.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Matrixes</Filter>
     </ClInclude>
     <ClInclude Include="MatrixFunctions.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Matrixes</Filter>
+    </ClInclude>
+    <ClInclude Include="Complex.hpp">
+      <Filter>Header Files\Number systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Field.hpp">
+      <Filter>Header Files\Number systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Rational.hpp">
+      <Filter>Header Files\Number systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Polynomial.hpp">
+      <Filter>Header Files\Polynomials</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

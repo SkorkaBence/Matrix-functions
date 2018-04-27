@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include "Matrix.hpp"
+#include "Polynomial.hpp"
 
 namespace sbl {
 
@@ -28,7 +29,7 @@ namespace sbl {
             throw Matrix<T>::ProcessStuckException();
         }
 
-        for (unsigned i = step + 1; i < h; i++) {
+        for (unsigned i = step + 1; i < h; ++i) {
             T referenceItem = m(i, step);
             T multiplier = referenceItem / mainItem;
             for (unsigned j = step; j < w; j++) {
@@ -56,13 +57,13 @@ namespace sbl {
 
         T mainItem = m(step_level, step_level);
 
-        for (unsigned j = step_level; j < w; j++) {
+        for (unsigned j = step_level; j < w; ++j) {
             m(step_level, j) /= mainItem;
         }
 
-        for (unsigned i = 0; i < step_level; i++) {
+        for (unsigned i = 0; i < step_level; ++i) {
             T referenceItem = m(i, step_level);
-            for (unsigned j = step_level; j < w; j++) {
+            for (unsigned j = step_level; j < w; ++j) {
                 m(i, j) = m(i, j) - (referenceItem * m(step_level, j));
             }
         }
@@ -81,8 +82,8 @@ namespace sbl {
 
         Matrix<T> inv(Width * 2, Height);
 
-        for (unsigned i = 0; i < Height; i++) {
-            for (unsigned j = 0; j < Width; j++) {
+        for (unsigned i = 0; i < Height; ++i) {
+            for (unsigned j = 0; j < Width; ++j) {
                 inv(i, j) = m(i, j);
                 inv(i, j + Width) = (i == j ? 1 : 0);
             }
@@ -90,8 +91,8 @@ namespace sbl {
 
         GaussianElimination(inv);
 
-        for (unsigned i = 0; i < Height; i++) {
-            for (unsigned j = 0; j < Width; j++) {
+        for (unsigned i = 0; i < Height; ++i) {
+            for (unsigned j = 0; j < Width; ++j) {
                 m(i, j) = inv(i, j + Width);
             }
         }
@@ -108,13 +109,13 @@ namespace sbl {
 
         Matrix<T> m(original);
 
-        for (unsigned step = 0; step < Width - 1; step++) {
+        for (unsigned step = 0; step < Width - 1; ++step) {
             T divider = m(step, step);
-            for (unsigned i = step + 1; i < Width; i++) {
+            for (unsigned i = step + 1; i < Width; ++i) {
                 m(i, step) /= divider;
             }
-            for (unsigned i = step + 1; i < Width; i++) {
-                for (unsigned j = step + 1; j < Width; j++) {
+            for (unsigned i = step + 1; i < Width; ++i) {
+                for (unsigned j = step + 1; j < Width; ++j) {
                     m(i, j) -= m(step, j) * m(i, step);
                 }
             }
@@ -125,8 +126,8 @@ namespace sbl {
         res.D.cleanResize(Width, Height);
         res.U.cleanResize(Width, Height);
 
-        for (unsigned i = 0; i < Height; i++) {
-            for (unsigned j = 0; j < Width; j++) {
+        for (unsigned i = 0; i < Height; ++i) {
+            for (unsigned j = 0; j < Width; ++j) {
                 if (i == j) {
                     res.L(i, j) = 1;
                     res.D(i, j) = m(i, j);
@@ -147,7 +148,7 @@ namespace sbl {
         typename Matrix<T>::LDU ldu = LDUDecomposition(m);
 
         T det = 1;
-        for (unsigned i = 0; i < m.getHeight(); i++) {
+        for (unsigned i = 0; i < m.getHeight(); ++i) {
             det *= ldu.D(i, i);
         }
 
@@ -176,9 +177,9 @@ namespace sbl {
     T norm1(const Matrix<T>& m) {
         T norm = 0;
 
-        for (unsigned j = 0; j < m.getWidth(); j++) {
+        for (unsigned j = 0; j < m.getWidth(); ++j) {
             T sum = 0;
-            for (unsigned i = 0; i < m.getHeight(); i++) {
+            for (unsigned i = 0; i < m.getHeight(); ++i) {
                 T v = m(i, j);
                 sum += (v >= 0 ? v : -v);
             }
@@ -194,9 +195,9 @@ namespace sbl {
     T normInf(const Matrix<T>& m) {
         T norm = 0;
 
-        for (unsigned i = 0; i < m.getHeight(); i++) {
+        for (unsigned i = 0; i < m.getHeight(); ++i) {
             T sum = 0;
-            for (unsigned j = 0; j < m.getWidth(); j++) {
+            for (unsigned j = 0; j < m.getWidth(); ++j) {
                 T v = m(i, j);
                 sum += (v >= 0 ? v : -v);
             }
@@ -212,8 +213,8 @@ namespace sbl {
     T normFrob(const Matrix<T>& m) {
         T sum = 0;
 
-        for (unsigned i = 0; i < m.getHeight(); i++) {
-            for (unsigned j = 0; j < m.getWidth(); j++) {
+        for (unsigned i = 0; i < m.getHeight(); ++i) {
+            for (unsigned j = 0; j < m.getWidth(); ++j) {
                 T v = m(i, j);
                 sum += v * v;
             }
@@ -222,8 +223,47 @@ namespace sbl {
         return sqrt(sum);
     }
 
-    template<typename T>
+    /*template<typename T>
     Matrix<T> EigenValues(const Matrix<T>& m) {
         typename Matrix<T>::LDU ldu = LDUDecomposition(m);
+    }*/
+
+    template<typename T>
+    Matrix<T> CompanionMatrix(basic_polynomial<T> polinom) {
+        int deg = polinom.deg();
+        if (deg < 0) {
+            throw Matrix<T>::InvalidSizeException();
+        }
+
+        if (polinom.getValue(deg) != 1) {
+            throw Matrix<T>::InvalidSizeException();
+        }
+
+        Matrix<T> m(deg, deg);
+        for (int i = 0; i < deg; ++i) {
+            m(i, deg - 1) = -1 * polinom.getValue(i);
+            if (i < deg - 1) {
+                m(i + 1, i) = 1;
+            }
+        }
+        return m;
     }
+
+    template<typename T>
+    T trace(Matrix<T> matrix) {
+        unsigned Width = matrix.getWidth();
+        unsigned Height = matrix.getHeight();
+
+        if (Width != Height) {
+            throw Matrix<T>::SquareMatrixRequired();
+        }
+
+        T tr = 0;
+        for (unsigned int i = 0; i < Width; ++i) {
+            tr += matrix(i, i);
+        }
+
+        return tr;
+    }
+
 }
